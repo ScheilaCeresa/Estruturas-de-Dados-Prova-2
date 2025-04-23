@@ -1,5 +1,7 @@
 #include "fila.hpp"
 #include "pilha.hpp"
+#include <cstdlib>
+#include <cctype>
 
 /**
  * @brief Avalia uma expressão aritmética em notação pós-fixa (notação polonesa
@@ -27,6 +29,50 @@
  * @throws std::runtime_error Caso a expressão esteja malformada (operandos ou
  * operadores em excesso, operadores inválidos ou divisão por zero).
  */
-int posfixa(Fila<char> &entrada);
+
+int posfixa(Fila<char> &entrada) {
+    Pilha<int> pilha;
+
+    while (!entrada.esta_vazia()) {
+        char token = entrada.empilhar();
+        entrada.desempilhar();
+
+
+    if (isdigit(token)) {
+        pilha.empilhar(token - '0');
+    }
+
+        int b = pilha.topo(); pilha.desempilhar();
+        int a = pilha.topo(); pilha.desempilhar();
+        int resultado;
+
+        switch (caracteres) {
+
+            case "+":
+                resultado = a + b;
+                break;
+            case "-":
+                resultado = a - b;
+                break;
+            case "*":
+                resultado = a * b;
+                break;
+            case "/";
+                resultado = a / b;
+                break;
+            if (b == 0) {
+                throw std::runtime_error("Divisao por 0");
+                return -7;
+            } else 
+            default:
+                cout << "invalido. ";
+                break;
+        }
+        pilha.empilhar(resultado);
+    }
+
+    return pilha.topo();
+}
+
 
 

@@ -102,25 +102,61 @@ class Fila {
 };
 
 template <class T>
-Fila<T>::Fila(size_t capacidade) {}
+Fila<T>::Fila(size_t capacidade) : tamanho{0}, capacidade{capacidade}, indice_inicio{0}, indice_fim{0}, dados{new T[capacidade]} {}
 
 template <class T>
-Fila<T>::~Fila() {}
+Fila<T>::~Fila() {
+ delete [] dados;
+}
 
 template <class T>
-void Fila<T>::enfileirar(const T& valor) {}
+void Fila<T>::enfileirar(const T& valor) {
+  if (tamanho >= capacidade) {
+    throw std::runtime_error("Fila cheia. ");
+  }
+
+  dados[indice_fim] = valor;
+  indice_fim++;
+  indice_fim %= capacidade;
+  tamanho++;
+
+}
 
 template <class T>
-T Fila<T>::desenfileirar() {}
+T Fila<T>::desenfileirar() {
+  if (tamanho == 0) {
+    throw std::runtime_error("Fila está vazia. ");
+  }
+
+  T valor = dados[indice_inicio];
+  indice_inicio %= capacidade;
+  tamanho--;
+
+  return valor;
+}
 
 template <class T>
-T& Fila<T>::frente() {}
+T& Fila<T>::frente() {
+  if (tamanho == 0) {
+    throw std::runtime_error("Fila vazia. ");
+  }
+  return dados[indice_inicio];
+}
 
 template <class T>
-const T& Fila<T>::frente() const {}
+const T& Fila<T>::frente() const {
+  if (tamanho == 0) {
+    throw std::runtime_error("Fila vazia. ");
+  }
+  return dados[indice_inicio];
+}
 
 template <class T>
-bool Fila<T>::esta_vazia() const {}
+bool Fila<T>::esta_vazia() const {
+  return tamanho == 0;
+}
 
 template <class T>
-bool Fila<T>::esta_cheia() const {}
+bool Fila<T>::esta_cheia() const {
+  return tamanho >= capacidade; 
+}
